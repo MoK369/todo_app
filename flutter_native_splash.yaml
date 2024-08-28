@@ -1,0 +1,19 @@
+flutter_native_splash:
+  android: true
+  ios: true
+  web: true
+
+  color: "#DFECDB"
+  image: "assets/images/todo_logo.png"
+  branding: "assets/images/branding.png"
+
+  color_dark: "#060E1E"
+
+  android_12:
+    color: "#DFECDB"
+    image: "assets/images/todo_logo_android_12.png"
+    branding: "assets/images/branding_android_12.png"
+    android_gravity: center
+
+    color_dark: "#060E1E"
+

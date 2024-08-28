@@ -1,0 +1,22 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "todo-application-99147",
+          "appId": "1:543153960727:android:36af6343f499af91cfa952",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "todo-application-99147",
+          "configurations": {
+            "android": "1:543153960727:android:36af6343f499af91cfa952",
+            "ios": "1:543153960727:ios:604eb5fb2b7189f8cfa952"
+          }
+        }
+      }
+    }
+  }
+}
