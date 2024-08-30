@@ -237,7 +237,6 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       } else {
         if (user.isVerified != true) {
-          print("changing status");
           await authProvider.updateVerificationStatus(
               user.authId!, authProvider.isEmailVerified!);
         }

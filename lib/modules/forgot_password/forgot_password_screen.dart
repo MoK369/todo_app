@@ -137,6 +137,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             title: L10nProvider.getTrans(context).pleaseWait);
         List<String> result =
             await authProvider.checkEmailExist(enterEmailController.text);
+        if (!mounted) return;
         if (result.isEmpty) {
           CustomAlertDialogs.hideDialog(context);
           CustomAlertDialogs.showMessageDialog(context,

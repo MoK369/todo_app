@@ -48,6 +48,7 @@
   "alert": "Alert!!",
   "carefulDeleteAccount": "Careful You are going to delete your account with the potential your not going to recover it again.",
   "okDelete": "OK Deleted",
+  "deletedSuccessfully": "Successfully deleted!",
   "nothingChanged": "Can't Save, Nothing Have Changed.",
   "saving": "Saving....",
   "carefulDeleteTask": "Are you sure you to delete this task?",

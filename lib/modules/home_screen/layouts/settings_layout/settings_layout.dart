@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/core/firebase_auth/firebase_auth_provider/auth_provider.dart';
@@ -11,7 +10,7 @@ import 'package:todo_app/modules/login/login_screen.dart';
 import '../../../../core/database/collections/users_collection.dart';
 
 class SettingsLayout extends StatefulWidget {
-  SettingsLayout({super.key});
+  const SettingsLayout({super.key});
 
   @override
   State<SettingsLayout> createState() => _SettingsLayoutState();
@@ -150,10 +149,15 @@ class _SettingsLayoutState extends State<SettingsLayout> {
                   CustomAlertDialogs.hideDialog(context);
                   Navigator.pushReplacementNamed(
                       context, LoginScreen.routeName);
+                  CustomAlertDialogs.showMessageDialog(context,
+                      title: L10nProvider.getTrans(context).done,
+                      message:
+                          L10nProvider.getTrans(context).deletedSuccessfully,
+                      posButtonTitle: L10nProvider.getTrans(context).ok);
                 }, negButtonTitle: L10nProvider.getTrans(context).cancel);
-              } on FirebaseAuthException catch (e) {
+              } catch (e) {
                 CustomAlertDialogs.showMessageDialog(context,
-                    title: L10nProvider.getTrans(context).unfortunately,
+                    title: L10nProvider.getTrans(context).note,
                     message: L10nProvider.getTrans(context).somethingWentWrong +
                         e.toString());
               }

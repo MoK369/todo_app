@@ -25,10 +25,9 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(
       const Duration(seconds: 4),
       () {
+        if (!mounted) return;
         FirebaseAuthProvider authProvider =
             Provider.of<FirebaseAuthProvider>(context, listen: false);
-        print(authProvider.isLoggedIn() &&
-            (authProvider.isEmailVerified == true));
         (authProvider.isLoggedIn() && (authProvider.isEmailVerified == true))
             ? Navigator.pushNamedAndRemoveUntil(
                 context,

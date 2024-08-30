@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:todo_app/core/database/models/app_user.dart';
-import 'package:todo_app/core/widgets/custom_dialogs/alert_dialogs.dart';
 
 class UsersCollection {
   CollectionReference<AppUser> getUsersCollection() {
@@ -27,18 +26,8 @@ class UsersCollection {
     return snapshot.data();
   }
 
-  Future<void> deleteUser(BuildContext context, String userID) async {
-    //return getUsersCollection().doc(userID).delete();
-    try {
-      await getUsersCollection().doc(userID).delete();
-      CustomAlertDialogs.showMessageDialog(context,
-          title: 'Done!',
-          message: "Successfully deleted!",
-          posButtonTitle: 'OK');
-    } catch (e) {
-      CustomAlertDialogs.showMessageDialog(context,
-          title: 'Note!', message: "Error deleting document: $e");
-    }
+  Future<void> deleteUser(BuildContext context, String userID) {
+    return getUsersCollection().doc(userID).delete();
   }
 
   Future<void> updateVerificationStatus(String userID, bool newStatus) {

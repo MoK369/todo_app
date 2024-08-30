@@ -162,7 +162,6 @@ class _EditScreenState extends State<EditScreen> {
         args.task.date?.getDateFormat(context) == taskDateCont.text &&
         args.task.time?.getTimeFormat(context) == taskTimeCont.text &&
         args.task.isLTR == isLTR) {
-      print(args.task.isLTR == isLTR);
       return false;
     } else {
       return true;

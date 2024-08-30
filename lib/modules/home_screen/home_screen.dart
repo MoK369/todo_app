@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentBarItemIndex = 0;
   List<Widget> bottomBarTabs = [
     const TasksListLayout(),
-    SettingsLayout(),
+    const SettingsLayout(),
   ];
   PageController pageController = PageController(initialPage: 0);
   late ThemeData theme;
@@ -147,7 +147,6 @@ class _HomeScreenState extends State<HomeScreen> {
           isLTR: isLTR);
 
       try {
-        print("trying");
         CustomAlertDialogs.showLoadingDialog(context,
             title: L10nProvider.getTrans(context).pleaseWait,
             isDismissible: false);

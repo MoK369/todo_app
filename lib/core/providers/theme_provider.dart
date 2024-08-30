@@ -23,6 +23,7 @@ class ThemeProvider extends ChangeNotifier {
             ? ThemeMode.light
             : ThemeMode.dark;
     notifyListeners();
+    sharedPreferences.setString(appThemeKey, newTheme);
   }
 
   bool isDark() {
