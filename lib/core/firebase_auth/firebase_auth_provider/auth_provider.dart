@@ -33,26 +33,34 @@ class FirebaseAuthProvider extends ChangeNotifier {
     return firebaseAuthUser != null;
   }
 
-  // void logIn(User newUser) {
-  //   firebaseAuthUser = newUser;
-  //   notifyListeners();
-  // }
-
   void logOut() {
     firebaseAuthUser = null;
     FirebaseAuth.instance.signOut();
     notifyListeners();
   }
 
-  void deleteAccount(BuildContext context, String userId) async {
+  Future<void> deleteAccount(BuildContext context, String userId) async {
     await usersCollection.deleteUser(context, userId);
     await firebaseAuthUser?.delete();
+    await FirebaseAuth.instance.currentUser?.delete();
     firebaseAuthUser = null;
     notifyListeners();
   }
 
-  Future<void> sendEmailVerification(User user) {
-    return user.sendEmailVerification();
+  Future<void> sendEmailVerification(User user) async {
+    return await user.sendEmailVerification();
+  }
+
+  Future<void> updateVerificationStatus(String userID, bool newStatus) {
+    return usersCollection.updateVerificationStatus(userID, newStatus);
+  }
+
+  Future<List<String>> checkEmailExist(String email) {
+    return FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
+  }
+
+  Future<void> resetPassword(String email) {
+    return FirebaseAuth.instance.sendPasswordResetEmail(email: email);
   }
 
   Future<AppUser?> createUserWithEmailAndPassword(

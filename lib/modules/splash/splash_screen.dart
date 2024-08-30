@@ -27,6 +27,8 @@ class _SplashScreenState extends State<SplashScreen> {
       () {
         FirebaseAuthProvider authProvider =
             Provider.of<FirebaseAuthProvider>(context, listen: false);
+        print(authProvider.isLoggedIn() &&
+            (authProvider.isEmailVerified == true));
         (authProvider.isLoggedIn() && (authProvider.isEmailVerified == true))
             ? Navigator.pushNamedAndRemoveUntil(
                 context,

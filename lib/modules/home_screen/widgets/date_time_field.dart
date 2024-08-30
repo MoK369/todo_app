@@ -11,6 +11,7 @@ class DateTimeField extends StatefulWidget {
   final String hintText;
   final IconData prefixIcon;
   final Validator? validator;
+  final Color? fillColor;
 
   const DateTimeField(
       {super.key,
@@ -20,7 +21,8 @@ class DateTimeField extends StatefulWidget {
       required this.hintText,
       required this.prefixIcon,
       required this.title,
-      this.validator});
+      this.validator,
+      this.fillColor});
 
   @override
   State<DateTimeField> createState() => _DateTimeFieldState();
@@ -30,33 +32,36 @@ class _DateTimeFieldState extends State<DateTimeField> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(widget.title),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            child: TextFormField(
-              onTap: () {
-                widget.onTap?.call();
-              },
-              controller: widget.controller,
-              validator: widget.validator,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              enableInteractiveSelection: widget.editable,
-              focusNode: FocusNode(),
-              readOnly: true,
-              style: GoogleFonts.montserrat(
-                  color: theme.inputDecorationTheme.hintStyle!.color,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w500),
-              decoration: InputDecoration(
-                floatingLabelBehavior: FloatingLabelBehavior.auto,
-                hintText: widget.hintText,
-                prefixIcon: Icon(widget.prefixIcon),
-              ),
-            ))
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(widget.title),
+          TextFormField(
+            initialValue: null,
+            onTap: () {
+              widget.onTap?.call();
+            },
+            controller: widget.controller,
+            validator: widget.validator,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            enableInteractiveSelection: widget.editable,
+            focusNode: FocusNode(),
+            readOnly: true,
+            style: GoogleFonts.montserrat(
+                color: theme.inputDecorationTheme.hintStyle!.color,
+                fontSize: 20,
+                fontWeight: FontWeight.w500),
+            decoration: InputDecoration(
+              fillColor: widget.fillColor,
+              floatingLabelBehavior: FloatingLabelBehavior.auto,
+              hintText: widget.hintText,
+              prefixIcon: Icon(widget.prefixIcon),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

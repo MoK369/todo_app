@@ -7,10 +7,12 @@ import 'package:todo_app/core/validate_functions/validate_functions.dart';
 import 'package:todo_app/core/widgets/custom_dialogs/alert_dialogs.dart';
 import 'package:todo_app/core/widgets/custom_form_field.dart';
 import 'package:todo_app/core/widgets/login_register_icon.dart';
+import 'package:todo_app/modules/forgot_password/forgot_password_screen.dart';
 import 'package:todo_app/modules/home_screen/home_screen.dart';
 import 'package:todo_app/modules/register/register_screen.dart';
 
 import '../../core/database/models/app_user.dart';
+import '../../core/providers/localization_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = "loginScreen";
@@ -33,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
+    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: GestureDetector(
         onTap: () {
@@ -42,11 +45,12 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Scaffold(
           body: Column(
             children: [
-              const LoginRegisterIcon(
-                  title1: 'Welcome back',
-                  title2: 'sign in to access your account'),
-              const SizedBox(
-                height: 100,
+              LoginRegisterIcon(
+                  title1: L10nProvider.getTrans(context).welcomeBack,
+                  title2:
+                      L10nProvider.getTrans(context).signInToAccessYourAccount),
+              SizedBox(
+                height: size.height * 0.1,
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -57,29 +61,31 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           CustomFormField(
                             controller: enterEmailController,
-                            hintText: 'Enter your Email',
+                            hintText:
+                                L10nProvider.getTrans(context).enterYourEmail,
                             prefixIcon: Icons.email_outlined,
                             keyboardType: TextInputType.emailAddress,
                             validator: (inputText) {
                               return ValidateFunctions.validationOfEmail(
-                                  inputText);
+                                  context, inputText);
                             },
                           ),
                           CustomFormField(
                             controller: passwordController,
-                            hintText: 'Password',
+                            hintText: L10nProvider.getTrans(context).password,
                             isPasswordField: true,
                             prefixIcon: Icons.password,
                             validator: (inputText) {
-                              if (inputText?.trim().isEmpty == true ||
+                              if (inputText?.isEmpty == true ||
                                   inputText == null) {
-                                return "Please enter your password";
+                                return L10nProvider.getTrans(context)
+                                    .enterPassword;
                               }
                               return null;
                             },
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               RichText(
                                   text: TextSpan(children: [
@@ -98,33 +104,44 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                     )),
                                 TextSpan(
-                                    text: 'Remember Me',
+                                    text: L10nProvider.getTrans(context)
+                                        .rememberMe,
                                     style: theme.textTheme.bodySmall)
                               ])),
                               TextButton(
-                                onPressed: () {},
-                                child: Text("Forgot Password?",
+                                onPressed: () {
+                                  Navigator.pushReplacementNamed(
+                                      context, ForgotPasswordScreen.routeName);
+                                },
+                                child: Text(
+                                    L10nProvider.getTrans(context)
+                                        .forgotPassword,
                                     style: theme.textTheme.bodySmall!.copyWith(
                                         color: const Color(0xFF6C63FF),
                                         fontWeight: FontWeight.bold)),
                               )
                             ],
                           ),
-                          const SizedBox(
-                            height: 20,
+                          SizedBox(
+                            height: size.height * 0.02,
                           ),
                           TextButton(
                             onPressed: () {
                               resendVerification();
                             },
-                            child: Text("Resend Email Verification",
+                            child: Text(
+                                L10nProvider.getTrans(context)
+                                    .resendEmailVerification,
                                 style: theme.textTheme.bodySmall!.copyWith(
                                     color: const Color(0xFF6C63FF),
                                     fontWeight: FontWeight.bold)),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(
-                                top: 60, right: 20, left: 20, bottom: 10),
+                            padding: EdgeInsets.only(
+                                top: size.height * 0.06,
+                                right: 20,
+                                left: 20,
+                                bottom: size.height * 0.02),
                             child: ElevatedButton(
                               onPressed: () {
                                 whenLoggingIn();
@@ -133,20 +150,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                   backgroundColor: const Color(0xFF6C63FF),
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 10)),
-                              child: const Text("Log In",
-                                  style: TextStyle(
+                              child: Text(L10nProvider.getTrans(context).logIn,
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 30,
                                       fontWeight: FontWeight.w400)),
                             ),
                           ),
-                          const SizedBox(
-                            height: 20,
+                          SizedBox(
+                            height: size.height * 0.02,
                           ),
                           RichText(
                             textAlign: TextAlign.center,
                             text: TextSpan(
-                                text: 'New Member? ',
+                                text: L10nProvider.getTrans(context).newMember,
                                 style: theme.textTheme.bodySmall,
                                 children: [
                                   WidgetSpan(
@@ -158,7 +175,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                               context,
                                               RegisterScreen.routeName);
                                         },
-                                        child: Text("Register Now",
+                                        child: Text(
+                                            L10nProvider.getTrans(context)
+                                                .registerNow,
                                             style: theme.textTheme.bodySmall!
                                                 .copyWith(
                                                     color:
@@ -193,49 +212,65 @@ class _LoginScreenState extends State<LoginScreen> {
         Provider.of<FirebaseAuthProvider>(context, listen: false);
     try {
       CustomAlertDialogs.showLoadingDialog(context,
-          title: 'Please wait....', isDismissible: false);
+          title: L10nProvider.getTrans(context).pleaseWait,
+          isDismissible: false);
 
       AppUser? user = await authProvider.signInWithEmailAndPassword(
           enterEmailController.text, passwordController.text);
-      CustomAlertDialogs.hideDialog(context);
+      if (!mounted) return;
       if (authProvider.isEmailVerified != true) {
+        CustomAlertDialogs.hideDialog(context);
         CustomAlertDialogs.showMessageDialog(context,
-            title: "Note!",
-            message: 'Please, verify your account first and then login',
-            posButtonTitle: 'OK');
+            title: L10nProvider.getTrans(context).note,
+            message: L10nProvider.getTrans(context).pleaseVerifyAccount,
+            posButtonTitle: L10nProvider.getTrans(context).ok);
       } else if (user == null) {
+        CustomAlertDialogs.hideDialog(context);
         CustomAlertDialogs.showMessageDialog(
           context,
-          title: "Note!",
-          message: 'Something Went Wrong, check your connection and try again.',
-          posButtonTitle: 'Try Again',
+          title: L10nProvider.getTrans(context).note,
+          message: L10nProvider.getTrans(context).checkConnection,
+          posButtonTitle: L10nProvider.getTrans(context).tryAgain,
           posButtonFun: () {
             whenLoggingIn();
           },
         );
       } else {
+        if (user.isVerified != true) {
+          print("changing status");
+          await authProvider.updateVerificationStatus(
+              user.authId!, authProvider.isEmailVerified!);
+        }
+        if (!mounted) return;
+        CustomAlertDialogs.hideDialog(context);
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         CustomAlertDialogs.showMessageDialog(context,
-            title: "Done!", message: 'Successful Login', posButtonTitle: 'OK');
+            title: L10nProvider.getTrans(context).done,
+            message: L10nProvider.getTrans(context).successfulLogIn,
+            posButtonTitle: L10nProvider.getTrans(context).ok);
       }
     } on FirebaseAuthException catch (e) {
-      String message = "Something Went Wrong";
+      String message =
+          L10nProvider.getTrans(context).somethingWentWrong + e.toString();
       if (e.code == FirebaseAuthExceptionCodes.userNotFound ||
           e.code == FirebaseAuthExceptionCodes.wrongPassword ||
           e.code == FirebaseAuthExceptionCodes.invalidCredential) {
-        message = 'Wrong Email or Password';
+        message = L10nProvider.getTrans(context).wrongEmailOrPassword;
       }
       CustomAlertDialogs.hideDialog(context);
       CustomAlertDialogs.showMessageDialog(context,
-          title: 'Unfortunately', message: message, posButtonTitle: "Ok");
+          title: L10nProvider.getTrans(context).unfortunately,
+          message: message,
+          posButtonTitle: L10nProvider.getTrans(context).ok);
     } catch (e) {
-      String message = "Something Went Wrong";
+      String message =
+          L10nProvider.getTrans(context).somethingWentWrong + e.toString();
       CustomAlertDialogs.hideDialog(context);
       CustomAlertDialogs.showMessageDialog(
         context,
-        title: 'Unfortunately',
+        title: L10nProvider.getTrans(context).unfortunately,
         message: message,
-        posButtonTitle: "Try Again",
+        posButtonTitle: L10nProvider.getTrans(context).tryAgain,
         posButtonFun: () {
           whenLoggingIn();
         },
@@ -243,14 +278,39 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void resendVerification() {
+  Future<void> resendVerification() async {
     FirebaseAuthProvider authProvider = Provider.of(context, listen: false);
     if (FirebaseAuth.instance.currentUser != null) {
-      authProvider.sendEmailVerification(FirebaseAuth.instance.currentUser!);
+      if (FirebaseAuth.instance.currentUser!.emailVerified != true) {
+        try {
+          CustomAlertDialogs.showLoadingDialog(context,
+              title: L10nProvider.getTrans(context).pleaseWait);
+          await authProvider
+              .sendEmailVerification(FirebaseAuth.instance.currentUser!);
+          if (!mounted) return;
+          CustomAlertDialogs.hideDialog(context);
+          CustomAlertDialogs.showMessageDialog(context,
+              title: L10nProvider.getTrans(context).successfully,
+              message: L10nProvider.getTrans(context).newEmailVerification +
+                  (authProvider.firebaseAuthUser?.email ?? ""),
+              posButtonTitle: L10nProvider.getTrans(context).ok);
+        } catch (e) {
+          CustomAlertDialogs.hideDialog(context);
+          CustomAlertDialogs.showMessageDialog(context,
+              title: L10nProvider.getTrans(context).unfortunately,
+              message: L10nProvider.getTrans(context).somethingWentWrong +
+                  e.toString());
+        }
+      } else {
+        CustomAlertDialogs.showMessageDialog(context,
+            title: L10nProvider.getTrans(context).note,
+            message: L10nProvider.getTrans(context).emailAlreadyVerified);
+      }
+    } else {
       CustomAlertDialogs.showMessageDialog(context,
-          title: "Successfully",
-          message: "A new Email verification has been sent",
-          posButtonTitle: 'OK');
+          title: L10nProvider.getTrans(context).note,
+          message: L10nProvider.getTrans(context).noCurrentUser,
+          posButtonTitle: L10nProvider.getTrans(context).ok);
     }
   }
 }

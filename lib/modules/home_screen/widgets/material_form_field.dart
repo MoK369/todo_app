@@ -16,7 +16,9 @@ class MaterialFormField extends StatefulWidget {
   final int maxLines;
   final int? maxLength;
   final bool editable;
-
+  final Color? fillColor;
+  final bool? isReadOnly;
+  final TextDirection? textDirection;
   const MaterialFormField(
       {super.key,
       required this.hintText,
@@ -29,7 +31,10 @@ class MaterialFormField extends StatefulWidget {
       this.formKey,
       this.maxLines = 1,
       this.maxLength,
-      this.editable = true});
+      this.editable = true,
+      this.fillColor,
+      this.isReadOnly = false,
+      this.textDirection});
 
   @override
   State<MaterialFormField> createState() => _MaterialFormFieldState();
@@ -51,6 +56,7 @@ class _MaterialFormFieldState extends State<MaterialFormField> {
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         child: TextFormField(
           key: widget.formKey,
+          textDirection: widget.textDirection,
           validator: widget.validator,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: widget.controller,
@@ -61,11 +67,13 @@ class _MaterialFormFieldState extends State<MaterialFormField> {
           maxLines: widget.maxLines,
           maxLength: widget.maxLength,
           enabled: widget.editable,
+          readOnly: widget.isReadOnly ?? false,
           style: GoogleFonts.montserrat(
               color: theme.inputDecorationTheme.hintStyle!.color,
               fontSize: 25,
               fontWeight: FontWeight.w500),
           decoration: InputDecoration(
+            fillColor: widget.fillColor,
             floatingLabelBehavior: FloatingLabelBehavior.auto,
             label: Text(
               widget.hintText,

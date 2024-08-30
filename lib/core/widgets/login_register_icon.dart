@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/core/providers/theme_provider.dart';
 
 class LoginRegisterIcon extends StatelessWidget {
   final String title1, title2;
@@ -10,6 +12,7 @@ class LoginRegisterIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    ThemeProvider themeProvider = Provider.of(context);
     final ThemeData theme = Theme.of(context);
     return Stack(
       alignment: Alignment.bottomCenter,
@@ -20,7 +23,7 @@ class LoginRegisterIcon extends StatelessWidget {
           child: Image.asset(
             'assets/images/undraw_adventure_map.png',
             scale: 3.5,
-            color: const Color(0xFF6C63FF),
+            color: themeProvider.isDark() ? const Color(0xFF6C63FF) : null,
           ),
         ),
         Positioned(

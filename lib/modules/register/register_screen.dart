@@ -4,17 +4,23 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/core/database/models/app_user.dart';
 import 'package:todo_app/core/firebase_auth/firebase_auth_provider/auth_provider.dart';
 import 'package:todo_app/core/firebase_auth/firebase_exception_codes/firebase_auth_exception_codes.dart';
+import 'package:todo_app/core/providers/localization_provider.dart';
 import 'package:todo_app/core/validate_functions/validate_functions.dart';
 import 'package:todo_app/core/widgets/custom_dialogs/alert_dialogs.dart';
 import 'package:todo_app/core/widgets/custom_form_field.dart';
 import 'package:todo_app/core/widgets/login_register_icon.dart';
 import 'package:todo_app/modules/login/login_screen.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   static const String routeName = "registerScreen";
 
-  RegisterScreen({super.key});
+  const RegisterScreen({super.key});
 
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController fullNameCont = TextEditingController(),
       emailCont = TextEditingController(),
       phoneCont = TextEditingController(),
@@ -35,8 +41,9 @@ class RegisterScreen extends StatelessWidget {
         child: Scaffold(
             body: Column(
           children: [
-            const LoginRegisterIcon(
-                title1: 'Get Started', title2: 'by creating free account'),
+            LoginRegisterIcon(
+                title1: L10nProvider.getTrans(context).getStarted,
+                title2: L10nProvider.getTrans(context).byCreatingAccount),
             const SizedBox(
               height: 20,
             ),
@@ -49,51 +56,53 @@ class RegisterScreen extends StatelessWidget {
                     children: [
                       CustomFormField(
                         controller: fullNameCont,
-                        hintText: 'Full Name',
+                        hintText: L10nProvider.getTrans(context).fullName,
                         prefixIcon: Icons.person,
                         keyboardType: TextInputType.name,
                         validator: (inputText) {
                           return ValidateFunctions.validationOfFullName(
-                              inputText);
+                              context, inputText);
                         },
                       ),
                       CustomFormField(
                         controller: emailCont,
-                        hintText: 'Valid Email',
+                        hintText: L10nProvider.getTrans(context).validEmail,
                         prefixIcon: Icons.email_outlined,
                         keyboardType: TextInputType.emailAddress,
                         validator: (inputText) {
-                          return ValidateFunctions.validationOfEmail(inputText);
+                          return ValidateFunctions.validationOfEmail(
+                              context, inputText);
                         },
                       ),
                       CustomFormField(
                         controller: phoneCont,
-                        hintText: 'Phone Number',
+                        hintText: L10nProvider.getTrans(context).phoneNumber,
                         prefixIcon: Icons.phone_android,
                         keyboardType: TextInputType.phone,
                         validator: (inputText) {
                           return ValidateFunctions.validationOfPhoneNumber(
-                              inputText);
+                              context, inputText);
                         },
                       ),
                       CustomFormField(
                         controller: passwordCont,
-                        hintText: 'Strong Password',
+                        hintText: L10nProvider.getTrans(context).strongPassword,
                         isPasswordField: true,
                         prefixIcon: Icons.password,
                         validator: (inputText) {
                           return ValidateFunctions.validationOfPassword(
-                              inputText);
+                              context, inputText);
                         },
                       ),
                       CustomFormField(
                         controller: confirmPasswordCont,
-                        hintText: 'Confirm Password',
+                        hintText:
+                            L10nProvider.getTrans(context).confirmPassword,
                         isPasswordField: true,
                         prefixIcon: Icons.password,
                         validator: (inputText) {
                           return ValidateFunctions.validationOfConfirmPassword(
-                              inputText, passwordCont);
+                              context, inputText, passwordCont);
                         },
                       ),
                       Padding(
@@ -106,8 +115,8 @@ class RegisterScreen extends StatelessWidget {
                               backgroundColor: const Color(0xFF6C63FF),
                               padding:
                                   const EdgeInsets.symmetric(vertical: 10)),
-                          child: const Text("Sign Up",
-                              style: TextStyle(
+                          child: Text(L10nProvider.getTrans(context).signUp,
+                              style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 30,
                                   fontWeight: FontWeight.w400)),
@@ -119,7 +128,7 @@ class RegisterScreen extends StatelessWidget {
                       RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                            text: 'Already a member? ',
+                            text: L10nProvider.getTrans(context).alreadyMember,
                             style: theme.textTheme.bodySmall,
                             children: [
                               WidgetSpan(
@@ -130,7 +139,8 @@ class RegisterScreen extends StatelessWidget {
                                       Navigator.pushReplacementNamed(
                                           context, LoginScreen.routeName);
                                     },
-                                    child: Text("Log in",
+                                    child: Text(
+                                        L10nProvider.getTrans(context).logIn,
                                         style: theme.textTheme.bodySmall!
                                             .copyWith(
                                                 color: const Color(0xFF6C63FF),
@@ -163,57 +173,56 @@ class RegisterScreen extends StatelessWidget {
         Provider.of<FirebaseAuthProvider>(context, listen: false);
     try {
       CustomAlertDialogs.showLoadingDialog(context,
-          title: 'Please wait....', isDismissible: false);
+          title: L10nProvider.getTrans(context).pleaseWait,
+          isDismissible: false);
       AppUser? user = await authProvider.createUserWithEmailAndPassword(
         email: emailCont.text,
         password: passwordCont.text,
         fullName: fullNameCont.text,
         phoneNumber: phoneCont.text,
       );
-      //print(credential);
+      if (!mounted) return;
       CustomAlertDialogs.hideDialog(context);
       if (user != null) {
         CustomAlertDialogs.showMessageDialog(
           context,
-          title: "Account Created Successfully",
+          title: L10nProvider.getTrans(context).accountCreated,
           message:
-              "A message has been sent to your email, please verify your account first and then Log-In. Note! If you did find the verification message check your spammed messages.",
-          posButtonTitle: 'OK',
+              L10nProvider.getTrans(context).verificationMessageHasBeenSent,
+          posButtonTitle: L10nProvider.getTrans(context).ok,
           posButtonFun: () {
             Navigator.pushReplacementNamed(context, LoginScreen.routeName);
           },
         );
       } else {
         CustomAlertDialogs.showMessageDialog(context,
-            title: "Unfortunately!!",
-            message:
-                "Something Went Wrong, please check your connection and then try again.",
-            posButtonTitle: 'Try Again', posButtonFun: () {
+            title: L10nProvider.getTrans(context).unfortunately,
+            message: L10nProvider.getTrans(context).checkConnection,
+            posButtonTitle: L10nProvider.getTrans(context).tryAgain,
+            posButtonFun: () {
           whenSigningUp(context);
-        }, negButtonTitle: 'Cancel');
+        }, negButtonTitle: L10nProvider.getTrans(context).cancel);
       }
     } on FirebaseAuthException catch (e) {
-      String message =
-          "Something Went Wrong, please check your connection and then try again.";
+      String message = L10nProvider.getTrans(context).checkConnection;
       if (e.code == FirebaseAuthExceptionCodes.weakPassword) {
-        message = 'The password provided is too weak.';
+        message = L10nProvider.getTrans(context).passwordTooWeak;
       } else if (e.code == FirebaseAuthExceptionCodes.emailInUse) {
-        message = 'The account already exists for that email.';
+        message = L10nProvider.getTrans(context).accountAlreadyExists;
       }
       CustomAlertDialogs.hideDialog(context);
       CustomAlertDialogs.showMessageDialog(context,
-          title: 'Unfortunately', message: message, posButtonTitle: "Ok");
+          title: L10nProvider.getTrans(context).unfortunately,
+          message: message,
+          posButtonTitle: L10nProvider.getTrans(context).ok);
     } catch (e) {
-      print("---------------$e--------------");
-      print("happening");
-      String message =
-          "Something Went Wrong, please check your connection and then try again.";
+      String message = L10nProvider.getTrans(context).somethingWentWrong;
       CustomAlertDialogs.hideDialog(context);
       CustomAlertDialogs.showMessageDialog(
         context,
-        title: 'Unfortunately',
-        message: message,
-        posButtonTitle: "Try Again",
+        title: L10nProvider.getTrans(context).unfortunately,
+        message: message + e.toString(),
+        posButtonTitle: L10nProvider.getTrans(context).tryAgain,
         posButtonFun: () {
           whenSigningUp(context);
         },

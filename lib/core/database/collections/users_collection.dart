@@ -40,4 +40,8 @@ class UsersCollection {
           title: 'Note!', message: "Error deleting document: $e");
     }
   }
+
+  Future<void> updateVerificationStatus(String userID, bool newStatus) {
+    return getUsersCollection().doc(userID).update({"isVerified": newStatus});
+  }
 }

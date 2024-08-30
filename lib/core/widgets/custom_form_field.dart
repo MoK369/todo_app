@@ -51,6 +51,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
           keyboardType: widget.keyboardType,
           obscureText: isTextSecured,
           onChanged: widget.onChange,
+          textDirection: TextDirection.ltr,
           style: GoogleFonts.montserrat(
               color: theme.inputDecorationTheme.hintStyle!.color,
               fontSize: 25,
