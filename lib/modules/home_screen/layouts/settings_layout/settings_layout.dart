@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/core/database/collections/tasks_collection.dart';
 import 'package:todo_app/core/firebase_auth/firebase_auth_provider/auth_provider.dart';
 import 'package:todo_app/core/providers/localization_provider.dart';
 import 'package:todo_app/core/providers/theme_provider.dart';
@@ -134,6 +135,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
           ListTile(
             tileColor: theme.scaffoldBackgroundColor,
             onTap: () {
+              TasksCollection tasksCollection = TasksCollection();
               try {
                 CustomAlertDialogs.showMessageDialog(context,
                     title: L10nProvider.getTrans(context).alert,
@@ -143,8 +145,10 @@ class _SettingsLayoutState extends State<SettingsLayout> {
                     posButtonFun: () async {
                   CustomAlertDialogs.showLoadingDialog(context,
                       title: L10nProvider.getTrans(context).pleaseWait);
-                  await authProvider.deleteAccount(
-                      context, authProvider.firebaseAuthUser!.uid);
+                  await tasksCollection
+                      .deleteTasksCollect(authProvider.firebaseAuthUser!.uid);
+                  await authProvider
+                      .deleteAccount(authProvider.firebaseAuthUser!.uid);
                   if (!mounted) return;
                   CustomAlertDialogs.hideDialog(context);
                   Navigator.pushReplacementNamed(

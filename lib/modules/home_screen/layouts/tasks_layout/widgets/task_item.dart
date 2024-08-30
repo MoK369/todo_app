@@ -130,7 +130,7 @@ class TaskItem extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 5),
                             child: Text(
-                              task.describtion ?? "",
+                              task.description ?? "",
                               overflow: TextOverflow.ellipsis,
                               style: theme.textTheme.bodySmall,
                             ),

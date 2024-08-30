@@ -77,13 +77,13 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
             isReadOnly: widget.areFieldsReadOnly,
             validator: (inputText) {
               if (inputText == null || inputText.trim().isEmpty) {
-                return L10nProvider.getTrans(context).enterTaskDescribtion;
+                return L10nProvider.getTrans(context).enterTaskDescription;
               } else if (inputText.length < 5) {
-                return L10nProvider.getTrans(context).taskDescribtionIsShort;
+                return L10nProvider.getTrans(context).taskDescriptionIsShort;
               }
               return null;
             },
-            hintText: L10nProvider.getTrans(context).taskDescribtion,
+            hintText: L10nProvider.getTrans(context).taskDescription,
             prefixIcon: Icons.description,
             maxLines: 10,
             maxLength: 200,
@@ -150,7 +150,6 @@ class _AddEditTaskSheetState extends State<AddEditTaskSheet> {
               }
             },
           ),
-          const Spacer(),
           Visibility(
             visible: widget.showButton,
             child: Padding(

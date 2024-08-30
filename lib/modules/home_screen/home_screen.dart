@@ -141,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
       TasksCollection tasksCollection = TasksCollection();
       Task newTask = Task(
           title: taskTitleCont.text,
-          describtion: taskDesCont.text,
+          description: taskDesCont.text,
           date: selectedDate?.daySinceEpoch(),
           time: selectedTime?.hourMinuteSinceEpoch(),
           isLTR: isLTR);

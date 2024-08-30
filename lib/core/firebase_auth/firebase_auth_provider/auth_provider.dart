@@ -39,8 +39,8 @@ class FirebaseAuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteAccount(BuildContext context, String userId) async {
-    await usersCollection.deleteUser(context, userId);
+  Future<void> deleteAccount(String userId) async {
+    await usersCollection.deleteUser(userId);
     await firebaseAuthUser?.delete();
     await FirebaseAuth.instance.currentUser?.delete();
     firebaseAuthUser = null;

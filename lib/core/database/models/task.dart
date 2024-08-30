@@ -1,7 +1,7 @@
 class Task {
   String? id;
   String? title;
-  String? describtion;
+  String? description;
   int? time;
   int? date;
   bool? isDone;
@@ -10,7 +10,7 @@ class Task {
   Task(
       {this.id,
       this.title,
-      this.describtion,
+      this.description,
       this.time,
       this.date,
       this.isDone = false,
@@ -20,7 +20,7 @@ class Task {
       : this(
             id: data?["id"],
             title: data?["title"],
-            describtion: data?["describtion"],
+            description: data?["description"],
             time: data?["time"],
             date: data?["date"],
             isDone: data?["isDone"],
@@ -30,7 +30,7 @@ class Task {
     return {
       "id": id,
       "title": title,
-      "describtion": describtion,
+      "description": description,
       "time": time,
       "date": date,
       "isDone": isDone,

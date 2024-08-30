@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:todo_app/core/database/models/app_user.dart';
 
 class UsersCollection {
@@ -26,7 +25,7 @@ class UsersCollection {
     return snapshot.data();
   }
 
-  Future<void> deleteUser(BuildContext context, String userID) {
+  Future<void> deleteUser(String userID) {
     return getUsersCollection().doc(userID).delete();
   }
 

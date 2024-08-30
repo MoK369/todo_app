@@ -21,28 +21,19 @@ class EditScreen extends StatefulWidget {
 }
 
 class _EditScreenState extends State<EditScreen> {
-  TextEditingController taskTitleCont = TextEditingController(),
-      taskDesCont = TextEditingController(),
-      taskDateCont = TextEditingController(),
-      taskTimeCont = TextEditingController();
+  TextEditingController? taskTitleCont, taskDesCont, taskDateCont, taskTimeCont;
   late EditInfo args;
   bool isEdited = false;
   bool? isLTR;
 
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(
-      Duration.zero,
-      () {
-        taskTitleCont.text = args.task.title!;
-        taskDesCont.text = args.task.describtion!;
+  void initializeControllers() {
+    taskTitleCont = TextEditingController(text: args.task.title!);
+    taskDesCont = TextEditingController(text: args.task.description!);
 
-        if (!mounted) return;
-        taskDateCont.text = args.task.date!.getDateFormat(context);
-        taskTimeCont.text = args.task.time!.getTimeFormat(context);
-      },
-    );
+    taskDateCont =
+        TextEditingController(text: args.task.date!.getDateFormat(context));
+    taskTimeCont =
+        TextEditingController(text: args.task.time!.getTimeFormat(context));
   }
 
   @override
@@ -50,6 +41,9 @@ class _EditScreenState extends State<EditScreen> {
     ThemeData theme = Theme.of(context);
     args = ModalRoute.of(context)?.settings.arguments as EditInfo;
     isLTR ??= args.task.isLTR!;
+    if (taskTitleCont == null) {
+      initializeControllers();
+    }
 
     Size size = MediaQuery.of(context).size;
     return GestureDetector(
@@ -57,59 +51,67 @@ class _EditScreenState extends State<EditScreen> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Stack(
-        alignment: Alignment.center,
-        clipBehavior: Clip.none,
-        children: [
-          Scaffold(
-            appBar: AppBar(
-              title: Text(L10nProvider.getTrans(context).toDo),
-              leading: IconButton(
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(
-                        context, HomeScreen.routeName);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    size: 35,
-                  )),
-              actions: [
-                args.isReadOnly
-                    ? const Icon(
-                        Icons.edit_off,
-                        size: 35,
-                      )
-                    : const Icon(
-                        Icons.edit,
-                        size: 35,
-                      )
-              ],
-            ),
-          ),
-          Positioned(
-            width: size.width * 0.9,
-            height: size.height * 0.8,
-            top: size.height * 0.15,
-            child: Card(
-              child: AddEditTaskSheet(
-                showButton: !args.isReadOnly,
-                descriptionMaxLines: args.isReadOnly ? 50 : null,
-                areFieldsReadOnly: args.isReadOnly,
-                initialIsLTR: isLTR!,
-                buttonTitle: L10nProvider.getTrans(context).save,
-                fillColorOfAllFields: theme.scaffoldBackgroundColor,
-                taskTitleCont: taskTitleCont,
-                taskDesCont: taskDesCont,
-                taskTimeCont: taskTimeCont,
-                taskDateCont: taskDateCont,
-                buttonFun: (formKey, selectedDate, selectedTime, isLTRResult) {
-                  isLTR = isLTRResult;
-                  updateTask(formKey, selectedDate, selectedTime);
-                },
+          alignment: Alignment.center,
+          clipBehavior: Clip.none,
+          children: [
+            Scaffold(
+              appBar: AppBar(
+                title: Text(L10nProvider.getTrans(context).toDo),
+                leading: IconButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                          context, HomeScreen.routeName);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      size: 35,
+                    )),
+                actions: [
+                  args.isReadOnly
+                      ? const Icon(
+                          Icons.edit_off,
+                          size: 35,
+                        )
+                      : const Icon(
+                          Icons.edit,
+                          size: 35,
+                        )
+                ],
               ),
             ),
-          ),
-        ],
-      ),
+            Positioned(
+              width: size.width * 0.9,
+              height: size.height * 0.8,
+              top: size.height * 0.15,
+              child: Card(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: AddEditTaskSheet(
+                          showButton: !args.isReadOnly,
+                          descriptionMaxLines: args.isReadOnly ? 50 : null,
+                          areFieldsReadOnly: args.isReadOnly,
+                          initialIsLTR: isLTR!,
+                          buttonTitle: L10nProvider.getTrans(context).save,
+                          fillColorOfAllFields: theme.scaffoldBackgroundColor,
+                          taskTitleCont: taskTitleCont!,
+                          taskDesCont: taskDesCont!,
+                          taskTimeCont: taskTimeCont!,
+                          taskDateCont: taskDateCont!,
+                          buttonFun: (formKey, selectedDate, selectedTime,
+                              isLTRResult) {
+                            isLTR = isLTRResult;
+                            updateTask(formKey, selectedDate, selectedTime);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ]),
     );
   }
 
@@ -131,8 +133,8 @@ class _EditScreenState extends State<EditScreen> {
 
         await tasksCollection.updateTask(
             authProvider.firebaseAuthUser!.uid, args.task,
-            newTitle: taskTitleCont.text,
-            newDescribtion: taskDesCont.text,
+            newTitle: taskTitleCont!.text,
+            newDescribtion: taskDesCont!.text,
             newDate: selectedDate == null
                 ? args.task.date!
                 : selectedDate.daySinceEpoch(),
@@ -157,10 +159,10 @@ class _EditScreenState extends State<EditScreen> {
   }
 
   bool didContentChange() {
-    if (args.task.title == taskTitleCont.text &&
-        args.task.describtion == taskDesCont.text &&
-        args.task.date?.getDateFormat(context) == taskDateCont.text &&
-        args.task.time?.getTimeFormat(context) == taskTimeCont.text &&
+    if (args.task.title == taskTitleCont!.text &&
+        args.task.description == taskDesCont!.text &&
+        args.task.date?.getDateFormat(context) == taskDateCont!.text &&
+        args.task.time?.getTimeFormat(context) == taskTimeCont!.text &&
         args.task.isLTR == isLTR) {
       return false;
     } else {
@@ -169,8 +171,8 @@ class _EditScreenState extends State<EditScreen> {
   }
 
   void updateSentTask(DateTime? selectedDate, TimeOfDay? selectedTime) {
-    args.task.title = taskTitleCont.text;
-    args.task.describtion = taskDesCont.text;
+    args.task.title = taskTitleCont!.text;
+    args.task.description = taskDesCont!.text;
     args.task.date =
         selectedDate == null ? args.task.date! : selectedDate.daySinceEpoch();
     args.task.time = selectedTime == null

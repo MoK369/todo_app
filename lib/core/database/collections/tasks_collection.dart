@@ -69,4 +69,11 @@ class TasksCollection {
       "isLTR": newIsLTR
     });
   }
+
+  Future<void> deleteTasksCollect(String userId) async {
+    var snapShot = await getTasksCollection(userId).get();
+    for (var element in snapShot.docs) {
+      element.reference.delete();
+    }
+  }
 }
