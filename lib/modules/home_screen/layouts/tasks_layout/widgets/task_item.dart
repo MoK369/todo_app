@@ -8,11 +8,12 @@ import 'package:todo_app/core/providers/localization_provider.dart';
 import 'package:todo_app/core/widgets/custom_dialogs/alert_dialogs.dart';
 import 'package:todo_app/modules/edit/edit_screen.dart';
 
-typedef OnClick = void Function(Task);
+typedef OnClick = Future<bool> Function(Task);
+typedef VoidOnClick = void Function(Task);
 
-class TaskItem extends StatelessWidget {
+class TaskItem extends StatefulWidget {
   final OnClick onDeleteClick;
-  final OnClick onIsDoneClick;
+  final VoidOnClick onIsDoneClick;
   final Task task;
 
   const TaskItem({
@@ -23,6 +24,11 @@ class TaskItem extends StatelessWidget {
   });
 
   @override
+  State<TaskItem> createState() => _TaskItemState();
+}
+
+class _TaskItemState extends State<TaskItem> {
+  @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     L10nProvider l10nProvider = Provider.of(context);
@@ -31,23 +37,30 @@ class TaskItem extends StatelessWidget {
       child: InkWell(
         onTap: () {
           Navigator.pushReplacementNamed(context, EditScreen.routName,
-              arguments: EditInfo(task: task, isReadOnly: true));
+              arguments: EditInfo(task: widget.task, isReadOnly: true));
         },
         child: Slidable(
           key: const ValueKey(0),
           startActionPane: ActionPane(
+            dragDismissible: true,
             dismissible: DismissiblePane(
-              onDismissed: () {
+              closeOnCancel: true,
+              confirmDismiss: () {
+                Future<bool> result = Future.value(false);
                 CustomAlertDialogs.showMessageDialog(
                   context,
                   title: L10nProvider.getTrans(context).alert,
                   message: L10nProvider.getTrans(context).carefulDeleteTask,
                   posButtonTitle: L10nProvider.getTrans(context).confirm,
-                  posButtonFun: () {
-                    onDeleteClick(task);
+                  posButtonFun: () async {
+                    result = widget.onDeleteClick(widget.task);
                   },
                   negButtonTitle: L10nProvider.getTrans(context).cancel,
                 );
+                return result;
+              },
+              onDismissed: () {
+                return;
               },
             ),
             extentRatio: 0.5,
@@ -61,7 +74,7 @@ class TaskItem extends StatelessWidget {
                     message: L10nProvider.getTrans(context).carefulDeleteTask,
                     posButtonTitle: L10nProvider.getTrans(context).confirm,
                     posButtonFun: () {
-                      onDeleteClick(task);
+                      widget.onDeleteClick(widget.task);
                     },
                     negButtonTitle: L10nProvider.getTrans(context).cancel,
                   );
@@ -82,7 +95,8 @@ class TaskItem extends StatelessWidget {
               SlidableAction(
                 onPressed: (context) {
                   Navigator.pushReplacementNamed(context, EditScreen.routName,
-                      arguments: EditInfo(task: task, isReadOnly: false));
+                      arguments:
+                          EditInfo(task: widget.task, isReadOnly: false));
                 },
                 icon: Icons.edit,
                 label: L10nProvider.getTrans(context).edit,
@@ -103,7 +117,7 @@ class TaskItem extends StatelessWidget {
                     height: 100,
                     margin: const EdgeInsets.all(25),
                     decoration: BoxDecoration(
-                        color: task.isDone == true
+                        color: widget.task.isDone == true
                             ? const Color(0xFf61E757)
                             : AppThemes.lightOnSecondaryColor,
                         borderRadius:
@@ -111,7 +125,7 @@ class TaskItem extends StatelessWidget {
                   ),
                   Expanded(
                     child: Directionality(
-                      textDirection: task.isLTR != true
+                      textDirection: widget.task.isLTR != true
                           ? TextDirection.rtl
                           : TextDirection.ltr,
                       child: Column(
@@ -119,9 +133,9 @@ class TaskItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            task.title ?? "",
+                            widget.task.title ?? "",
                             overflow: TextOverflow.ellipsis,
-                            style: task.isDone == true
+                            style: widget.task.isDone == true
                                 ? theme.textTheme.bodyMedium
                                     ?.copyWith(color: const Color(0xFf61E757))
                                 : theme.textTheme.titleMedium,
@@ -130,7 +144,7 @@ class TaskItem extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 5),
                             child: Text(
-                              task.description ?? "",
+                              widget.task.description ?? "",
                               overflow: TextOverflow.ellipsis,
                               style: theme.textTheme.bodySmall,
                             ),
@@ -147,7 +161,7 @@ class TaskItem extends StatelessWidget {
                                   width: 10,
                                 ),
                                 Text(
-                                  "${task.time?.getTimeFormat(context)}",
+                                  "${widget.task.time?.getTimeFormat(context)}",
                                   style: theme.textTheme.bodySmall,
                                 ),
                               ],
@@ -157,10 +171,10 @@ class TaskItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  task.isDone == true
+                  widget.task.isDone == true
                       ? TextButton(
                           onPressed: () {
-                            onIsDoneClick(task);
+                            widget.onIsDoneClick(widget.task);
                           },
                           child: Text(
                             L10nProvider.getTrans(context).done,
@@ -169,7 +183,7 @@ class TaskItem extends StatelessWidget {
                           ))
                       : ElevatedButton(
                           onPressed: () {
-                            onIsDoneClick(task);
+                            widget.onIsDoneClick(widget.task);
                           },
                           child: const ImageIcon(
                               AssetImage("assets/icons/check_icon.png"))),

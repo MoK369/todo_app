@@ -1,4 +1,11 @@
 class Task {
+  static const String idKey = "id",
+      titleKey = "title",
+      descriptionKey = "description",
+      timeKey = "time",
+      dateKey = "date",
+      isDoneKey = "isDone",
+      isLTRKey = "isLTR";
   String? id;
   String? title;
   String? description;
@@ -18,23 +25,23 @@ class Task {
 
   Task.fromFirestore(Map<String, dynamic>? data)
       : this(
-            id: data?["id"],
-            title: data?["title"],
-            description: data?["description"],
-            time: data?["time"],
-            date: data?["date"],
-            isDone: data?["isDone"],
-            isLTR: data?["isLTR"]);
+            id: data?[idKey],
+            title: data?[titleKey],
+            description: data?[descriptionKey],
+            time: data?[timeKey],
+            date: data?[dateKey],
+            isDone: data?[isDoneKey],
+            isLTR: data?[isLTRKey]);
 
   Map<String, dynamic> toFirestore() {
     return {
-      "id": id,
-      "title": title,
-      "description": description,
-      "time": time,
-      "date": date,
-      "isDone": isDone,
-      "isLTR": isLTR
+      idKey: id,
+      titleKey: title,
+      descriptionKey: description,
+      timeKey: time,
+      dateKey: date,
+      isDoneKey: isDone,
+      isLTRKey: isLTR
     };
   }
 }

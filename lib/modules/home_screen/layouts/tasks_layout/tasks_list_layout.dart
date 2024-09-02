@@ -65,7 +65,10 @@ class _TasksListLayoutState extends State<TasksListLayout> {
             focusDate: selectedDate,
             onDateChange: (selectedDate) {
               setState(() {
-                this.selectedDate = selectedDate;
+                this.selectedDate = DateTime(
+                    selectedDate.year, selectedDate.month, selectedDate.day);
+
+                print(this.selectedDate);
               });
             },
             firstDate: DateTime.now().subtract(const Duration(days: 365)),
@@ -109,6 +112,7 @@ class _TasksListLayoutState extends State<TasksListLayout> {
                       },
                     ).toList() ??
                     [];
+                print(tasks);
                 if (tasks.isEmpty) {
                   return Center(
                     child: Text(
@@ -125,7 +129,7 @@ class _TasksListLayoutState extends State<TasksListLayout> {
                           return TaskItem(
                             task: tasks[index],
                             onDeleteClick: (taskToDelete) {
-                              deleteTask(taskToDelete);
+                              return deleteTask(taskToDelete);
                             },
                             onIsDoneClick: (task) {
                               onIsDoneClick(task);
@@ -148,14 +152,15 @@ class _TasksListLayoutState extends State<TasksListLayout> {
     );
   }
 
-  void deleteTask(Task task) async {
+  Future<bool> deleteTask(Task task) async {
     CustomAlertDialogs.showLoadingDialog(context,
         title: L10nProvider.getTrans(context).pleaseWait);
     try {
       await tasksCollection.removeTask(
           authProvider.firebaseAuthUser!.uid, task);
-      if (!mounted) return;
+      if (!mounted) return false;
       CustomAlertDialogs.hideDialog(context);
+      return true;
     } catch (e) {
       CustomAlertDialogs.hideDialog(context);
       CustomAlertDialogs.showMessageDialog(
@@ -169,6 +174,7 @@ class _TasksListLayoutState extends State<TasksListLayout> {
         },
       );
     }
+    return false;
   }
 
   void onIsDoneClick(Task task) async {

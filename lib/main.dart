@@ -53,7 +53,6 @@ class _MyAppState extends State<MyApp> {
     FlutterNativeSplash.remove();
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     L10nProvider l10nProvider = Provider.of(context);

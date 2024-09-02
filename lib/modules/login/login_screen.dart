@@ -31,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late ThemeData theme;
 
   bool isRememberMeChecked = false;
+  bool showResendVerification = true;
 
   @override
   Widget build(BuildContext context) {
@@ -125,16 +126,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(
                             height: size.height * 0.02,
                           ),
-                          TextButton(
-                            onPressed: () {
-                              resendVerification();
-                            },
-                            child: Text(
-                                L10nProvider.getTrans(context)
-                                    .resendEmailVerification,
-                                style: theme.textTheme.bodySmall!.copyWith(
-                                    color: const Color(0xFF6C63FF),
-                                    fontWeight: FontWeight.bold)),
+                          Visibility(
+                            visible: showResendVerification,
+                            child: TextButton(
+                              onPressed: () {
+                                resendVerification();
+                              },
+                              child: Text(
+                                  L10nProvider.getTrans(context)
+                                      .resendEmailVerification,
+                                  style: theme.textTheme.bodySmall!.copyWith(
+                                      color: const Color(0xFF6C63FF),
+                                      fontWeight: FontWeight.bold)),
+                            ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(
@@ -293,6 +297,9 @@ class _LoginScreenState extends State<LoginScreen> {
               message: L10nProvider.getTrans(context).newEmailVerification +
                   (authProvider.firebaseAuthUser?.email ?? ""),
               posButtonTitle: L10nProvider.getTrans(context).ok);
+          setState(() {
+            showResendVerification = false;
+          });
         } catch (e) {
           CustomAlertDialogs.hideDialog(context);
           CustomAlertDialogs.showMessageDialog(context,
