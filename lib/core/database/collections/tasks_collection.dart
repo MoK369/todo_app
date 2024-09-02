@@ -36,9 +36,10 @@ class TasksCollection {
   // }
   Stream<QuerySnapshot<Task>> getAllTasks(
       String userId, DateTime selectedDate) async* {
+    print(selectedDate.daySinceEpoch());
     yield* getTasksCollection(userId)
-        .where("date", isEqualTo: selectedDate.daySinceEpoch())
-        .orderBy("time")
+        .where(Task.dateKey, isEqualTo: selectedDate.daySinceEpoch())
+        .orderBy(Task.timeKey)
         .snapshots();
   }
 
@@ -50,7 +51,7 @@ class TasksCollection {
   Future<void> changeIsDone(String userId, Task task) {
     var docRef = getTasksCollection(userId).doc(task.id);
     return docRef.update({
-      "isDone": !task.isDone!,
+      Task.isDoneKey: !task.isDone!,
     });
   }
 
@@ -62,11 +63,11 @@ class TasksCollection {
       required bool newIsLTR}) {
     var docRef = getTasksCollection(userId).doc(task.id);
     return docRef.update({
-      "title": newTitle,
-      "describtion": newDescribtion,
-      "date": newDate,
-      "time": newTime,
-      "isLTR": newIsLTR
+      Task.titleKey: newTitle,
+      Task.descriptionKey: newDescribtion,
+      Task.dateKey: newDate,
+      Task.timeKey: newTime,
+      Task.isLTRKey: newIsLTR
     });
   }
 

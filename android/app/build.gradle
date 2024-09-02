@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.main369.todo.todo_app"
+    namespace = "com.main369.todo"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 

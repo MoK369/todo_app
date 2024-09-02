@@ -10,7 +10,7 @@ extension DateTimeExtensionMethods on DateTime {
       month,
       day,
     );
-    return newDateTime.millisecondsSinceEpoch;
+    return newDateTime.toUtc().millisecondsSinceEpoch;
   }
 
   String getDateFormat(BuildContext context) {

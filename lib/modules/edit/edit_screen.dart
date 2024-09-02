@@ -82,32 +82,24 @@ class _EditScreenState extends State<EditScreen> {
             Positioned(
               width: size.width * 0.9,
               height: size.height * 0.8,
-              top: size.height * 0.15,
+              top: size.height * 0.17,
               child: Card(
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: AddEditTaskSheet(
-                          showButton: !args.isReadOnly,
-                          descriptionMaxLines: args.isReadOnly ? 50 : null,
-                          areFieldsReadOnly: args.isReadOnly,
-                          initialIsLTR: isLTR!,
-                          buttonTitle: L10nProvider.getTrans(context).save,
-                          fillColorOfAllFields: theme.scaffoldBackgroundColor,
-                          taskTitleCont: taskTitleCont!,
-                          taskDesCont: taskDesCont!,
-                          taskTimeCont: taskTimeCont!,
-                          taskDateCont: taskDateCont!,
-                          buttonFun: (formKey, selectedDate, selectedTime,
-                              isLTRResult) {
-                            isLTR = isLTRResult;
-                            updateTask(formKey, selectedDate, selectedTime);
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
+                child: AddEditTaskSheet(
+                  showButton: !args.isReadOnly,
+                  descriptionMaxLines: args.isReadOnly ? 50 : null,
+                  areFieldsReadOnly: args.isReadOnly,
+                  initialIsLTR: isLTR!,
+                  buttonTitle: L10nProvider.getTrans(context).save,
+                  fillColorOfAllFields: theme.scaffoldBackgroundColor,
+                  taskTitleCont: taskTitleCont!,
+                  taskDesCont: taskDesCont!,
+                  taskTimeCont: taskTimeCont!,
+                  taskDateCont: taskDateCont!,
+                  buttonFun:
+                      (formKey, selectedDate, selectedTime, isLTRResult) {
+                    isLTR = isLTRResult;
+                    updateTask(formKey, selectedDate, selectedTime);
+                  },
                 ),
               ),
             ),
@@ -142,7 +134,7 @@ class _EditScreenState extends State<EditScreen> {
                 ? args.task.time!
                 : selectedTime.hourMinuteSinceEpoch(),
             newIsLTR: isLTR!);
-        updateSentTask(selectedDate, selectedTime);
+        updateArgsTask(selectedDate, selectedTime);
         if (!mounted) return;
         CustomAlertDialogs.hideDialog(context);
         CustomAlertDialogs.showMessageDialog(context,
@@ -170,7 +162,7 @@ class _EditScreenState extends State<EditScreen> {
     }
   }
 
-  void updateSentTask(DateTime? selectedDate, TimeOfDay? selectedTime) {
+  void updateArgsTask(DateTime? selectedDate, TimeOfDay? selectedTime) {
     args.task.title = taskTitleCont!.text;
     args.task.description = taskDesCont!.text;
     args.task.date =
