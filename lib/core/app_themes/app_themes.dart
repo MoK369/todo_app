@@ -8,6 +8,8 @@ class AppThemes {
   static const Color lightOnSecondaryColor = Color(0xFF5D9CEC);
   static ThemeData lightTheme = ThemeData(
       scaffoldBackgroundColor: lightPrimaryColor,
+      progressIndicatorTheme:
+          const ProgressIndicatorThemeData(color: lightOnPrimaryColor),
       appBarTheme: const AppBarTheme(
           foregroundColor: lightSecondaryColor,
           backgroundColor: lightOnPrimaryColor,
@@ -63,12 +65,14 @@ class AppThemes {
       inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: Colors.white,
+          errorStyle: const TextStyle(fontSize: 17),
+          errorMaxLines: 10,
           labelStyle:
-              GoogleFonts.montserrat(fontSize: 25, fontWeight: FontWeight.w400),
+              GoogleFonts.montserrat(fontSize: 20, fontWeight: FontWeight.w400),
           hintStyle:
-              GoogleFonts.montserrat(fontSize: 25, fontWeight: FontWeight.w300),
+              GoogleFonts.montserrat(fontSize: 20, fontWeight: FontWeight.w300),
           prefixIconColor: const Color(0xFFc4c4c4),
-          contentPadding: const EdgeInsets.all(20),
+          contentPadding: const EdgeInsets.all(15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.circular(20)),
@@ -80,8 +84,8 @@ class AppThemes {
               borderRadius: BorderRadius.circular(20))),
       dialogTheme: const DialogTheme(
         backgroundColor: lightPrimaryColor,
-        titleTextStyle: TextStyle(color: Colors.black, fontSize: 25),
-        contentTextStyle: TextStyle(color: Colors.black, fontSize: 25),
+        titleTextStyle: TextStyle(color: Colors.black, fontSize: 20),
+        contentTextStyle: TextStyle(color: Colors.black, fontSize: 20),
       ),
       datePickerTheme: DatePickerThemeData(
         headerBackgroundColor: lightPrimaryColor,
@@ -154,6 +158,8 @@ class AppThemes {
   static const Color darkOnSecondaryColor = Color(0xFF5D9CEC);
   static ThemeData darkTheme = ThemeData(
       scaffoldBackgroundColor: darkPrimaryColor,
+      progressIndicatorTheme:
+          const ProgressIndicatorThemeData(color: darkOnPrimaryColor),
       appBarTheme: const AppBarTheme(
           foregroundColor: darkPrimaryColor,
           backgroundColor: darkOnSecondaryColor,
@@ -210,13 +216,15 @@ class AppThemes {
       inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: darkSecondaryColor,
+          errorStyle: const TextStyle(fontSize: 17),
+          errorMaxLines: 10,
           labelStyle: GoogleFonts.montserrat(
-              fontSize: 25, fontWeight: FontWeight.w400, color: Colors.white),
+              fontSize: 20, fontWeight: FontWeight.w400, color: Colors.white),
           hintStyle: GoogleFonts.montserrat(
-              fontSize: 25, fontWeight: FontWeight.w300, color: Colors.white),
+              fontSize: 20, fontWeight: FontWeight.w300, color: Colors.white),
           prefixIconColor: const Color(0xFFc4c4c4),
           suffixIconColor: const Color(0xFFc4c4c4),
-          contentPadding: const EdgeInsets.all(20),
+          contentPadding: const EdgeInsets.all(15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.circular(20)),
@@ -228,8 +236,8 @@ class AppThemes {
               borderRadius: BorderRadius.circular(20))),
       dialogTheme: const DialogTheme(
         backgroundColor: darkPrimaryColor,
-        titleTextStyle: TextStyle(color: Colors.white, fontSize: 25),
-        contentTextStyle: TextStyle(color: Colors.white, fontSize: 25),
+        titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+        contentTextStyle: TextStyle(color: Colors.white, fontSize: 20),
       ),
       datePickerTheme: DatePickerThemeData(
         headerBackgroundColor: Colors.blue,

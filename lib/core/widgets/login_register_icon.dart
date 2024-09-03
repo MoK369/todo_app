@@ -19,19 +19,19 @@ class LoginRegisterIcon extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Image.asset(
             'assets/images/undraw_adventure_map.png',
-            scale: 3.5,
+            scale: 4,
             color: themeProvider.isDark() ? const Color(0xFF6C63FF) : null,
           ),
         ),
         Positioned(
-            bottom: size.height * 0.03,
+            bottom: size.height * 0.02,
             child: Text(
               title1,
               style: GoogleFonts.montserrat(
-                  fontSize: 40,
+                  fontSize: 30,
                   fontWeight: FontWeight.w500,
                   color: theme.textTheme.bodySmall!.color),
             )),
@@ -40,7 +40,7 @@ class LoginRegisterIcon extends StatelessWidget {
           child: Text(
             title2,
             style: GoogleFonts.montserrat(
-                fontSize: 20,
+                fontSize: 15,
                 fontWeight: FontWeight.w400,
                 color: theme.textTheme.bodySmall!.color),
           ),

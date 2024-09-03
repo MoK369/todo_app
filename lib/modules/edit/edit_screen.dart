@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/core/database/collections/tasks_collection.dart';
-import 'package:todo_app/core/extension_methods/date_time_extension_methods.dart';
 import 'package:todo_app/core/extension_methods/int_extension_methods.dart';
-import 'package:todo_app/core/extension_methods/time_of_day_extension_methods.dart';
 import 'package:todo_app/core/firebase_auth/firebase_auth_provider/auth_provider.dart';
 import 'package:todo_app/core/providers/localization_provider.dart';
 import 'package:todo_app/core/widgets/add_edit_task_sheet.dart';
@@ -33,7 +31,7 @@ class _EditScreenState extends State<EditScreen> {
     taskDateCont =
         TextEditingController(text: args.task.date!.getDateFormat(context));
     taskTimeCont =
-        TextEditingController(text: args.task.time!.getTimeFormat(context));
+        TextEditingController(text: args.task.date!.getTimeFormat(context));
   }
 
   @override
@@ -127,14 +125,25 @@ class _EditScreenState extends State<EditScreen> {
             authProvider.firebaseAuthUser!.uid, args.task,
             newTitle: taskTitleCont!.text,
             newDescribtion: taskDesCont!.text,
-            newDate: selectedDate == null
-                ? args.task.date!
-                : selectedDate.daySinceEpoch(),
-            newTime: selectedTime == null
-                ? args.task.time!
-                : selectedTime.hourMinuteSinceEpoch(),
+            newDate: DateTime(
+                    selectedDate?.year ??
+                        DateTime.fromMillisecondsSinceEpoch(args.task.date!)
+                            .year,
+                    selectedDate?.month ??
+                        DateTime.fromMillisecondsSinceEpoch(args.task.date!)
+                            .month,
+                    selectedDate?.day ??
+                        DateTime.fromMillisecondsSinceEpoch(args.task.date!)
+                            .day,
+                    selectedTime?.hour ??
+                        DateTime.fromMillisecondsSinceEpoch(args.task.date!)
+                            .hour,
+                    selectedTime?.minute ??
+                        DateTime.fromMillisecondsSinceEpoch(args.task.date!)
+                            .minute)
+                .millisecondsSinceEpoch,
             newIsLTR: isLTR!);
-        updateArgsTask(selectedDate, selectedTime);
+        //updateArgsTask(selectedDate, selectedTime);
         if (!mounted) return;
         CustomAlertDialogs.hideDialog(context);
         CustomAlertDialogs.showMessageDialog(context,
@@ -154,7 +163,7 @@ class _EditScreenState extends State<EditScreen> {
     if (args.task.title == taskTitleCont!.text &&
         args.task.description == taskDesCont!.text &&
         args.task.date?.getDateFormat(context) == taskDateCont!.text &&
-        args.task.time?.getTimeFormat(context) == taskTimeCont!.text &&
+        args.task.date?.getTimeFormat(context) == taskTimeCont!.text &&
         args.task.isLTR == isLTR) {
       return false;
     } else {
@@ -162,14 +171,12 @@ class _EditScreenState extends State<EditScreen> {
     }
   }
 
-  void updateArgsTask(DateTime? selectedDate, TimeOfDay? selectedTime) {
-    args.task.title = taskTitleCont!.text;
-    args.task.description = taskDesCont!.text;
-    args.task.date =
-        selectedDate == null ? args.task.date! : selectedDate.daySinceEpoch();
-    args.task.time = selectedTime == null
-        ? args.task.time!
-        : selectedTime.hourMinuteSinceEpoch();
-    args.task.isLTR = isLTR!;
-  }
+// void updateArgsTask(DateTime? selectedDate, TimeOfDay? selectedTime) {
+//   args.task.title = taskTitleCont!.text;
+//   args.task.description = taskDesCont!.text;
+//   args.task.date =
+//   ;
+//       //selectedDate == null ? args.task.date! : selectedDate.daySinceEpoch();
+//   args.task.isLTR = isLTR!;
+// }
 }

@@ -26,6 +26,7 @@ class _TasksListLayoutState extends State<TasksListLayout> {
     ThemeData theme = Theme.of(context);
     authProvider = Provider.of<FirebaseAuthProvider>(context);
     L10nProvider l10nProvider = Provider.of(context);
+    final Size size = MediaQuery.of(context).size;
     tasksCollection = TasksCollection();
     return Column(
       children: [
@@ -43,6 +44,7 @@ class _TasksListLayoutState extends State<TasksListLayout> {
                 Colors.transparent
               ])),
           child: EasyInfiniteDateTimeLine(
+            timeLineProps: const EasyTimeLineProps(vPadding: 10),
             selectionMode: const SelectionMode.autoCenter(),
             locale: l10nProvider.isArabic() ? "ar" : "en_US",
             dayProps: EasyDayProps(
@@ -66,9 +68,7 @@ class _TasksListLayoutState extends State<TasksListLayout> {
             onDateChange: (selectedDate) {
               setState(() {
                 this.selectedDate = DateTime(
-                    selectedDate.year, selectedDate.month, selectedDate.day);
-
-                print(this.selectedDate);
+                    selectedDate.year, selectedDate.month, selectedDate.day, 0);
               });
             },
             firstDate: DateTime.now().subtract(const Duration(days: 365)),
@@ -112,7 +112,6 @@ class _TasksListLayoutState extends State<TasksListLayout> {
                       },
                     ).toList() ??
                     [];
-                print(tasks);
                 if (tasks.isEmpty) {
                   return Center(
                     child: Text(
@@ -122,8 +121,11 @@ class _TasksListLayoutState extends State<TasksListLayout> {
                   );
                 } else {
                   return Padding(
-                    padding: const EdgeInsets.only(
-                        top: 50, bottom: 8, left: 10, right: 10),
+                    padding: EdgeInsets.only(
+                        top: size.height * 0.015,
+                        bottom: 8,
+                        left: 10,
+                        right: 10),
                     child: ListView.separated(
                         itemBuilder: (context, index) {
                           return TaskItem(

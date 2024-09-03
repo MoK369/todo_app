@@ -21,6 +21,6 @@ extension IntExtensionMethods on int {
     L10nProvider l10nProvider = Provider.of(context, listen: false);
     final DateFormat formatter =
         DateFormat("EEE yyyy/MMM/dd", l10nProvider.isArabic() ? "ar" : "en");
-    return formatter.format(DateTime.fromMillisecondsSinceEpoch(this).toUtc());
+    return formatter.format(DateTime.fromMillisecondsSinceEpoch(this));
   }
 }

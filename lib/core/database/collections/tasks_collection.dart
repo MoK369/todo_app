@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:todo_app/core/database/models/task.dart';
-import 'package:todo_app/core/extension_methods/date_time_extension_methods.dart';
 
 class TasksCollection {
   CollectionReference<Task> getTasksCollection(String userId) {
@@ -36,10 +35,20 @@ class TasksCollection {
   // }
   Stream<QuerySnapshot<Task>> getAllTasks(
       String userId, DateTime selectedDate) async* {
-    print(selectedDate.daySinceEpoch());
+    // print(
+    //     "getAllTasksStart: ${DateTime(selectedDate.year, selectedDate.month, selectedDate.day, 0).millisecondsSinceEpoch}");
+    // print(
+    //     "getAllTasksEnd: ${DateTime(selectedDate.year, selectedDate.month, selectedDate.day, 23, 59, 59).millisecondsSinceEpoch}");
     yield* getTasksCollection(userId)
-        .where(Task.dateKey, isEqualTo: selectedDate.daySinceEpoch())
-        .orderBy(Task.timeKey)
+        .where(Task.dateKey,
+            isGreaterThanOrEqualTo: DateTime(
+                    selectedDate.year, selectedDate.month, selectedDate.day, 0)
+                .millisecondsSinceEpoch)
+        .where(Task.dateKey,
+            isLessThanOrEqualTo: DateTime(selectedDate.year, selectedDate.month,
+                    selectedDate.day, 23, 59, 59)
+                .millisecondsSinceEpoch)
+        .orderBy(Task.dateKey)
         .snapshots();
   }
 
@@ -59,14 +68,12 @@ class TasksCollection {
       {required String newTitle,
       required String newDescribtion,
       required int newDate,
-      required int newTime,
       required bool newIsLTR}) {
     var docRef = getTasksCollection(userId).doc(task.id);
     return docRef.update({
       Task.titleKey: newTitle,
       Task.descriptionKey: newDescribtion,
       Task.dateKey: newDate,
-      Task.timeKey: newTime,
       Task.isLTRKey: newIsLTR
     });
   }

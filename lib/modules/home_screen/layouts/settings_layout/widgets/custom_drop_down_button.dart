@@ -20,10 +20,14 @@ class CustomDropDownButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final ThemeData theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title),
+        Text(
+          title,
+          style: theme.textTheme.bodySmall,
+        ),
         Container(
           decoration: BoxDecoration(
             border: Border.all(color: const Color(0xFF5D9CEC), width: 1.5),
@@ -46,7 +50,12 @@ class CustomDropDownButton extends StatelessWidget {
                   onTap: () {
                     onTap(e);
                   },
-                  child: Text(e),
+                  child: Text(
+                    e,
+                    style: theme.textTheme.bodySmall!.copyWith(
+                        color: const Color(0xFF5D9CEC),
+                        fontWeight: FontWeight.bold),
+                  ),
                 );
               },
             ).toList(),

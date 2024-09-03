@@ -2,14 +2,12 @@ class Task {
   static const String idKey = "id",
       titleKey = "title",
       descriptionKey = "description",
-      timeKey = "time",
       dateKey = "date",
       isDoneKey = "isDone",
       isLTRKey = "isLTR";
   String? id;
   String? title;
   String? description;
-  int? time;
   int? date;
   bool? isDone;
   bool? isLTR;
@@ -18,7 +16,6 @@ class Task {
       {this.id,
       this.title,
       this.description,
-      this.time,
       this.date,
       this.isDone = false,
       this.isLTR});
@@ -28,7 +25,6 @@ class Task {
             id: data?[idKey],
             title: data?[titleKey],
             description: data?[descriptionKey],
-            time: data?[timeKey],
             date: data?[dateKey],
             isDone: data?[isDoneKey],
             isLTR: data?[isLTRKey]);
@@ -38,7 +34,6 @@ class Task {
       idKey: id,
       titleKey: title,
       descriptionKey: description,
-      timeKey: time,
       dateKey: date,
       isDoneKey: isDone,
       isLTRKey: isLTR

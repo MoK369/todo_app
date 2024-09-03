@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     alignment: PlaceholderAlignment.middle,
                                     baseline: TextBaseline.ideographic,
                                     child: Transform.scale(
-                                      scale: 1.4,
+                                      scale: 1.2,
                                       child: Checkbox(
                                         value: isRememberMeChecked,
                                         onChanged: (value) {
@@ -107,7 +107,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 TextSpan(
                                     text: L10nProvider.getTrans(context)
                                         .rememberMe,
-                                    style: theme.textTheme.bodySmall)
+                                    style: theme.textTheme.bodySmall!
+                                        .copyWith(fontSize: 15))
                               ])),
                               TextButton(
                                 onPressed: () {
@@ -119,6 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         .forgotPassword,
                                     style: theme.textTheme.bodySmall!.copyWith(
                                         color: const Color(0xFF6C63FF),
+                                        fontSize: 15,
                                         fontWeight: FontWeight.bold)),
                               )
                             ],
@@ -137,12 +139,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                       .resendEmailVerification,
                                   style: theme.textTheme.bodySmall!.copyWith(
                                       color: const Color(0xFF6C63FF),
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold)),
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(
-                                top: size.height * 0.06,
+                                top: size.height * 0.04,
                                 right: 20,
                                 left: 20,
                                 bottom: size.height * 0.02),
@@ -157,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Text(L10nProvider.getTrans(context).logIn,
                                   style: const TextStyle(
                                       color: Colors.white,
-                                      fontSize: 30,
+                                      fontSize: 25,
                                       fontWeight: FontWeight.w400)),
                             ),
                           ),
@@ -168,7 +171,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             textAlign: TextAlign.center,
                             text: TextSpan(
                                 text: L10nProvider.getTrans(context).newMember,
-                                style: theme.textTheme.bodySmall,
+                                style: theme.textTheme.bodySmall!
+                                    .copyWith(fontSize: 15),
                                 children: [
                                   WidgetSpan(
                                       alignment: PlaceholderAlignment.baseline,
@@ -186,6 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 .copyWith(
                                                     color:
                                                         const Color(0xFF6C63FF),
+                                                    fontSize: 18,
                                                     fontWeight:
                                                         FontWeight.bold)),
                                       ))

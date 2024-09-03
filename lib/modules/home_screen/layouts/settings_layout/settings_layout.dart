@@ -68,8 +68,8 @@ class _SettingsLayoutState extends State<SettingsLayout> {
             padding: EdgeInsets.symmetric(vertical: size.height * 0.01),
             child: Text(
               textAlign: TextAlign.center,
-              "${authProvider.firebaseAuthUser?.email}",
-              style: theme.textTheme.bodyMedium,
+              authProvider.firebaseAuthUser?.email ?? "",
+              style: theme.textTheme.bodySmall,
             ),
           ),
           CustomDropDownButton(
@@ -128,7 +128,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
               ),
               title: Text(
                 L10nProvider.getTrans(context).logOut,
-                style: theme.textTheme.bodyMedium!.copyWith(color: Colors.red),
+                style: theme.textTheme.bodySmall!.copyWith(color: Colors.red),
               ),
             ),
           ),
@@ -173,7 +173,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
             ),
             title: Text(
               L10nProvider.getTrans(context).deleteAccount,
-              style: theme.textTheme.bodyMedium!.copyWith(color: Colors.red),
+              style: theme.textTheme.bodySmall!.copyWith(color: Colors.red),
             ),
           ),
         ],

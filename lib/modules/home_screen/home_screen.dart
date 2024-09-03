@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/core/database/collections/tasks_collection.dart';
 import 'package:todo_app/core/database/models/task.dart';
-import 'package:todo_app/core/extension_methods/date_time_extension_methods.dart';
-import 'package:todo_app/core/extension_methods/time_of_day_extension_methods.dart';
 import 'package:todo_app/core/firebase_auth/firebase_auth_provider/auth_provider.dart';
 import 'package:todo_app/core/providers/localization_provider.dart';
 import 'package:todo_app/core/widgets/add_edit_task_sheet.dart';
@@ -37,8 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final FirebaseAuthProvider authProvider = Provider.of(context);
-    theme = Theme.of(context);
     final Size size = MediaQuery.of(context).size;
+    theme = Theme.of(context);
     L10nProvider l10nProvider = Provider.of(context);
     if (isLTR == null) {
       l10nProvider.isArabic() ? isLTR = false : isLTR = true;
@@ -46,8 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          toolbarHeight: 120,
-          leadingWidth: 75,
+          toolbarHeight: size.height * 0.1,
+          leadingWidth: size.width * 0.17,
           leading: const Padding(
             padding: EdgeInsets.only(left: 10, right: 10),
             child: CircleAvatar(
@@ -142,8 +140,9 @@ class _HomeScreenState extends State<HomeScreen> {
       Task newTask = Task(
           title: taskTitleCont.text,
           description: taskDesCont.text,
-          date: selectedDate?.daySinceEpoch(),
-          time: selectedTime?.hourMinuteSinceEpoch(),
+          date: DateTime(selectedDate!.year, selectedDate.month,
+                  selectedDate.day, selectedTime!.hour, selectedTime.minute)
+              .millisecondsSinceEpoch,
           isLTR: isLTR);
 
       try {

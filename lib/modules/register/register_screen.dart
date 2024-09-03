@@ -118,7 +118,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           child: Text(L10nProvider.getTrans(context).signUp,
                               style: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: 30,
+                                  fontSize: 25,
                                   fontWeight: FontWeight.w400)),
                         ),
                       ),
@@ -129,7 +129,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textAlign: TextAlign.center,
                         text: TextSpan(
                             text: L10nProvider.getTrans(context).alreadyMember,
-                            style: theme.textTheme.bodySmall,
+                            style: theme.textTheme.bodySmall!
+                                .copyWith(fontSize: 15),
                             children: [
                               WidgetSpan(
                                   alignment: PlaceholderAlignment.baseline,
@@ -144,6 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         style: theme.textTheme.bodySmall!
                                             .copyWith(
                                                 color: const Color(0xFF6C63FF),
+                                                fontSize: 18,
                                                 fontWeight: FontWeight.bold)),
                                   ))
                             ]),

@@ -36,7 +36,7 @@ class _TaskItemState extends State<TaskItem> {
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       child: InkWell(
         onTap: () {
-          Navigator.pushReplacementNamed(context, EditScreen.routName,
+          Navigator.pushNamed(context, EditScreen.routName,
               arguments: EditInfo(task: widget.task, isReadOnly: true));
         },
         child: Slidable(
@@ -94,7 +94,7 @@ class _TaskItemState extends State<TaskItem> {
               ),
               SlidableAction(
                 onPressed: (context) {
-                  Navigator.pushReplacementNamed(context, EditScreen.routName,
+                  Navigator.pushNamed(context, EditScreen.routName,
                       arguments:
                           EditInfo(task: widget.task, isReadOnly: false));
                 },
@@ -161,7 +161,7 @@ class _TaskItemState extends State<TaskItem> {
                                   width: 10,
                                 ),
                                 Text(
-                                  "${widget.task.time?.getTimeFormat(context)}",
+                                  "${widget.task.date?.getTimeFormat(context)}",
                                   style: theme.textTheme.bodySmall,
                                 ),
                               ],

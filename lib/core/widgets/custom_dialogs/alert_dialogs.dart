@@ -60,19 +60,14 @@ class CustomAlertDialogs {
       barrierDismissible: isDismissible,
       context: context,
       builder: (context) {
-        ThemeData theme = Theme.of(context);
         return AlertDialog(
           title: Row(
             children: [
               const Center(child: CircularProgressIndicator()),
-              const SizedBox(
-                width: 20,
-              ),
               Expanded(
                 child: Text(
                   textAlign: TextAlign.center,
                   title,
-                  style: theme.textTheme.bodyMedium,
                 ),
               ),
             ],
