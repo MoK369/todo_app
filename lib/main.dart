@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localization.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,7 @@ import 'modules/register/register_screen.dart';
 void main() async {
   FlutterNativeSplash.preserve(
       widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
+  await dotenv.load(fileName: "privateInfo.env");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   runApp(MultiProvider(
@@ -51,6 +53,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     FlutterNativeSplash.remove();
+    debugPrint(dotenv.env["ANDROID_API_KEY"]);
   }
 
   @override
