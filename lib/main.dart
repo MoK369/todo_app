@@ -53,7 +53,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     FlutterNativeSplash.remove();
-    debugPrint(dotenv.env["ANDROID_API_KEY"]);
   }
 
   @override
