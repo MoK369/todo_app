@@ -6,7 +6,6 @@ import 'package:todo_app/core/firebase_auth/firebase_auth_provider/auth_provider
 import 'package:todo_app/core/providers/localization_provider.dart';
 import 'package:todo_app/core/widgets/add_edit_task_sheet.dart';
 import 'package:todo_app/core/widgets/custom_dialogs/alert_dialogs.dart';
-import 'package:todo_app/modules/home_screen/home_screen.dart';
 import 'package:todo_app/modules/home_screen/layouts/tasks_layout/widgets/task_item.dart';
 
 class EditScreen extends StatefulWidget {
@@ -57,8 +56,7 @@ class _EditScreenState extends State<EditScreen> {
                 title: Text(L10nProvider.getTrans(context).toDo),
                 leading: IconButton(
                     onPressed: () {
-                      Navigator.pushReplacementNamed(
-                          context, HomeScreen.routeName);
+                      Navigator.pop(context);
                     },
                     icon: const Icon(
                       Icons.arrow_back,

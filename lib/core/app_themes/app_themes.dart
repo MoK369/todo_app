@@ -50,13 +50,17 @@ class AppThemes {
               foregroundColor:
                   const WidgetStatePropertyAll(lightSecondaryColor),
               padding: const WidgetStatePropertyAll(
-                  EdgeInsets.symmetric(horizontal: 25, vertical: 8)),
-              iconSize: const WidgetStatePropertyAll(30),
+                  EdgeInsets.symmetric(horizontal: 20, vertical: 8)),
+              iconSize: const WidgetStatePropertyAll(25),
               shape: WidgetStatePropertyAll(ContinuousRectangleBorder(
                   borderRadius: BorderRadius.circular(25))))),
       textTheme: TextTheme(
+        titleSmall: GoogleFonts.poppins(
+            color: lightOnSecondaryColor,
+            fontSize: 20,
+            fontWeight: FontWeight.w700),
         titleMedium: GoogleFonts.poppins(
-            color: darkOnSecondaryColor,
+            color: lightOnSecondaryColor,
             fontSize: 25,
             fontWeight: FontWeight.w700),
         bodySmall: const TextStyle(color: Colors.black, fontSize: 20),
@@ -150,7 +154,13 @@ class AppThemes {
             return Colors.transparent;
           }
         },
-      )));
+      )),
+      snackBarTheme: SnackBarThemeData(
+          backgroundColor: lightOnPrimaryColor,
+          contentTextStyle: GoogleFonts.poppins(
+              color: lightPrimaryColor,
+              fontSize: 20,
+              fontWeight: FontWeight.w700)));
 
   static const Color darkPrimaryColor = Color(0xFF060E1E);
   static const Color darkOnPrimaryColor = Color(0xFF3598DB);
@@ -201,11 +211,15 @@ class AppThemes {
                   const WidgetStatePropertyAll(darkOnSecondaryColor),
               foregroundColor: const WidgetStatePropertyAll(Colors.white),
               padding: const WidgetStatePropertyAll(
-                  EdgeInsets.symmetric(horizontal: 25, vertical: 8)),
-              iconSize: const WidgetStatePropertyAll(30),
+                  EdgeInsets.symmetric(horizontal: 20, vertical: 8)),
+              iconSize: const WidgetStatePropertyAll(25),
               shape: WidgetStatePropertyAll(ContinuousRectangleBorder(
                   borderRadius: BorderRadius.circular(25))))),
       textTheme: TextTheme(
+        titleSmall: GoogleFonts.poppins(
+            color: darkOnSecondaryColor,
+            fontSize: 20,
+            fontWeight: FontWeight.w700),
         titleMedium: GoogleFonts.poppins(
             color: darkOnSecondaryColor,
             fontSize: 25,
@@ -302,5 +316,11 @@ class AppThemes {
             return Colors.transparent;
           }
         },
-      )));
+      )),
+      snackBarTheme: SnackBarThemeData(
+          backgroundColor: darkOnPrimaryColor,
+          contentTextStyle: GoogleFonts.poppins(
+              color: darkPrimaryColor,
+              fontSize: 20,
+              fontWeight: FontWeight.w700)));
 }

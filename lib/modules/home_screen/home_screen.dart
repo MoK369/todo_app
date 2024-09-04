@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/core/database/collections/tasks_collection.dart';
 import 'package:todo_app/core/database/models/task.dart';
@@ -32,68 +33,94 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   PageController pageController = PageController(initialPage: 0);
   late ThemeData theme;
+  DateTime? lastPressed;
+  late FirebaseAuthProvider authProvider;
+  late Size size;
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuthProvider authProvider = Provider.of(context);
-    final Size size = MediaQuery.of(context).size;
+    authProvider = Provider.of(context);
+    size = MediaQuery.of(context).size;
     theme = Theme.of(context);
     L10nProvider l10nProvider = Provider.of(context);
     if (isLTR == null) {
       l10nProvider.isArabic() ? isLTR = false : isLTR = true;
     }
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: size.height * 0.1,
-          leadingWidth: size.width * 0.17,
-          leading: const Padding(
-            padding: EdgeInsets.only(left: 10, right: 10),
-            child: CircleAvatar(
-              child: Icon(
-                Icons.person,
-                size: 35,
+
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        DateTime now = DateTime.now();
+        bool isWarning = (lastPressed == null) ||
+            (now.difference(lastPressed!) > const Duration(seconds: 2));
+
+        if (isWarning) {
+          lastPressed = DateTime.now();
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Press back again to exit"),
+            duration: Duration(seconds: 2),
+          ));
+          return;
+        }
+        SystemNavigator.pop();
+        isWarning = false;
+        lastPressed = null;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            toolbarHeight: size.height * 0.1,
+            leadingWidth: size.width * 0.17,
+            leading: const Padding(
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: CircleAvatar(
+                child: Icon(
+                  Icons.person,
+                  size: 35,
+                ),
               ),
             ),
+            title: Text(currentBarItemIndex == 0
+                ? L10nProvider.getTrans(context).hi +
+                    (authProvider.appUser?.fullName ?? "")
+                : L10nProvider.getTrans(context).settings),
           ),
-          title: Text(currentBarItemIndex == 0
-              ? L10nProvider.getTrans(context).hi +
-                  (authProvider.appUser?.fullName ?? "")
-              : L10nProvider.getTrans(context).settings),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            showAddTaskBottomSheet();
-          },
-          child: const Icon(Icons.add),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: BottomAppBar(
-          height: size.height * 0.1,
-          notchMargin: 12,
-          child: BottomNavigationBar(
-              currentIndex: currentBarItemIndex,
-              onTap: (pressedItemIndex) {
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              showAddTaskBottomSheet();
+            },
+            child: const Icon(Icons.add),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: BottomAppBar(
+            height: size.height * 0.1,
+            notchMargin: 12,
+            child: BottomNavigationBar(
+                currentIndex: currentBarItemIndex,
+                onTap: (pressedItemIndex) {
+                  setState(() {
+                    currentBarItemIndex = pressedItemIndex;
+                    pageController.animateToPage(currentBarItemIndex,
+                        duration: const Duration(milliseconds: 30),
+                        curve: Curves.bounceIn);
+                  });
+                },
+                iconSize: size.height * 0.035,
+                items: const [
+                  BottomNavigationBarItem(icon: Icon(Icons.list), label: ''),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.settings), label: ''),
+                ]),
+          ),
+          body: PageView(
+              controller: pageController,
+              onPageChanged: (changedPageIndex) {
                 setState(() {
-                  currentBarItemIndex = pressedItemIndex;
-                  pageController.animateToPage(currentBarItemIndex,
-                      duration: const Duration(milliseconds: 30),
-                      curve: Curves.bounceIn);
+                  currentBarItemIndex = changedPageIndex;
                 });
               },
-              iconSize: size.height * 0.035,
-              items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.list), label: ''),
-                BottomNavigationBarItem(icon: Icon(Icons.settings), label: ''),
-              ]),
+              children: bottomBarTabs),
         ),
-        body: PageView(
-            controller: pageController,
-            onPageChanged: (changedPageIndex) {
-              setState(() {
-                currentBarItemIndex = changedPageIndex;
-              });
-            },
-            children: bottomBarTabs),
       ),
     );
   }

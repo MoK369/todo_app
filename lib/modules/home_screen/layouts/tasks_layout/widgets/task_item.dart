@@ -35,6 +35,7 @@ class _TaskItemState extends State<TaskItem> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       child: InkWell(
+        splashColor: Colors.transparent,
         onTap: () {
           Navigator.pushNamed(context, EditScreen.routName,
               arguments: EditInfo(task: widget.task, isReadOnly: true));
@@ -136,9 +137,9 @@ class _TaskItemState extends State<TaskItem> {
                             widget.task.title ?? "",
                             overflow: TextOverflow.ellipsis,
                             style: widget.task.isDone == true
-                                ? theme.textTheme.bodyMedium
+                                ? theme.textTheme.titleSmall
                                     ?.copyWith(color: const Color(0xFf61E757))
-                                : theme.textTheme.titleMedium,
+                                : theme.textTheme.titleSmall,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
@@ -178,7 +179,7 @@ class _TaskItemState extends State<TaskItem> {
                           },
                           child: Text(
                             L10nProvider.getTrans(context).done,
-                            style: theme.textTheme.bodyMedium
+                            style: theme.textTheme.bodySmall
                                 ?.copyWith(color: const Color(0xFf61E757)),
                           ))
                       : ElevatedButton(
