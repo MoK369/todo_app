@@ -8,6 +8,7 @@ import 'package:todo_app/core/firebase_auth/firebase_auth_provider/auth_provider
 import 'package:todo_app/core/providers/localization_provider.dart';
 import 'package:todo_app/core/widgets/add_edit_task_sheet.dart';
 import 'package:todo_app/core/widgets/custom_dialogs/alert_dialogs.dart';
+import 'package:todo_app/local_notifications.dart';
 import 'package:todo_app/modules/home_screen/layouts/settings_layout/settings_layout.dart';
 import 'package:todo_app/modules/home_screen/layouts/tasks_layout/tasks_list_layout.dart';
 
@@ -36,6 +37,16 @@ class _HomeScreenState extends State<HomeScreen> {
   DateTime? lastPressed;
   late FirebaseAuthProvider authProvider;
   late Size size;
+
+  @override
+  void initState() {
+    super.initState();
+    LocalNotifications.showSimpleNotification(
+        title: "Hello",
+        body: "Welcome back to Todo App We are happy to see you!",
+        payLoad: "${DateTime.now()}");
+  }
+
   @override
   Widget build(BuildContext context) {
     authProvider = Provider.of(context);

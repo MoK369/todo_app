@@ -9,6 +9,7 @@ import 'package:todo_app/core/firebase_auth/firebase_auth_provider/auth_provider
 import 'package:todo_app/core/providers/localization_provider.dart';
 import 'package:todo_app/core/providers/theme_provider.dart';
 import 'package:todo_app/firebase_options.dart';
+import 'package:todo_app/local_notifications.dart';
 import 'package:todo_app/modules/edit/edit_screen.dart';
 import 'package:todo_app/modules/forgot_password/forgot_password_screen.dart';
 import 'package:todo_app/modules/splash/splash_screen.dart';
@@ -23,6 +24,7 @@ void main() async {
       widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
   await dotenv.load(fileName: "privateInfo.env");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await LocalNotifications.init();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   runApp(MultiProvider(
     providers: [
