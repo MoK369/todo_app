@@ -1,4 +1,4 @@
-# todo_app
+# Todo App
 
 A user-friendly to-do application designed to help users manage their tasks and notes efficiently. The app allows users to create, save, and organize their to-do lists and notes, with the added functionality of setting reminders to ensure they never miss an important task.
 
