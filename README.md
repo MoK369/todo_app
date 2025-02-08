@@ -5,7 +5,6 @@ A user-friendly to-do application designed to help users manage their tasks and 
 ## Features:
 1. Notes:
 Users can create and save notes for quick reference.
-Notes can be organized into folders or tagged for easy retrieval.
 
 2. Reminders and Notifications:
 Users can set due dates and times for tasks.
