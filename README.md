@@ -19,14 +19,14 @@ https://drive.google.com/drive/folders/1-dDF5m_cwfBodV6IsZLVBzstjh3BseDr?usp=sha
 
 ## Pictures:
 
-![photo_2025-02-02 04 39 53](https://github.com/user-attachments/assets/51cda5bc-f804-4436-82ce-b78ea645a299)
+![WhatsApp Image 2025-02-08 at 12 16 24](https://github.com/user-attachments/assets/8c094722-2404-4649-bd02-ba300cb1b5d6)
 
-![WhatsApp Image 2025-02-02 at 03 28 11](https://github.com/user-attachments/assets/d47ece85-cb76-4944-955e-3d232cd77c24)
+![WhatsApp Image 2025-02-08 at 12 16 24 (1)](https://github.com/user-attachments/assets/a4203c34-e917-43dd-90bf-16727d973647)
 
-![WhatsApp Image 2025-02-02 at 03 28 11 (1)](https://github.com/user-attachments/assets/5fe51d54-3d72-4bf6-9620-bfb74b363a92)
+![WhatsApp Image 2025-02-08 at 12 16 24 (2)](https://github.com/user-attachments/assets/06c46474-263e-4140-b8bc-3d9f18ce5c85)
 
-![WhatsApp Image 2025-02-02 at 03 28 11 (2)](https://github.com/user-attachments/assets/33564abc-0537-4a1f-bfd6-329a449c098d)
+![WhatsApp Image 2025-02-08 at 12 16 24 (3)](https://github.com/user-attachments/assets/44dd8459-ffa3-41b2-bea2-bbb4e4d89ab4)
 
-![WhatsApp Image 2025-02-02 at 03 28 11 (3)](https://github.com/user-attachments/assets/52974f71-3cab-4e82-bb68-6390ce1b6b2d)
+![WhatsApp Image 2025-02-08 at 12 16 24 (4)](https://github.com/user-attachments/assets/7cc5ef23-596a-4992-bfc5-23ff79c35b46)
 
-![WhatsApp Image 2025-02-02 at 03 28 12](https://github.com/user-attachments/assets/84cce49b-23b1-4d3c-ae27-8c70bb7a3504)
+![WhatsApp Image 2025-02-08 at 12 16 24 (5)](https://github.com/user-attachments/assets/b1f8ef2a-a0e3-4fff-9f9d-151765c32957)
